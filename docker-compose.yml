@@ -1,0 +1,80 @@
+version: '3.8'
+
+# This file defines the services that make up the Lekh application's backend.
+# It is designed for local development and testing.
+# Frontend, Supabase, and Neo4j are managed separately.
+
+services:
+  # The FastAPI Web Server
+  # This container accepts API requests from the frontend.
+  backend:
+    container_name: lekh-backend-api
+    # Uses the Dockerfile located in the ./backend directory to build the image
+    build:
+      context: ./backend
+    # This service runs the default CMD from the Dockerfile (uvicorn)
+    ports:
+      - "8000:8000" # Maps port 8000 on the host to port 8000 in the container
+    env_file:
+      - .env # Loads all secrets and configuration from the .env file
+    # The backend needs to connect to Redis to queue tasks.
+    depends_on:
+      - redis
+    networks:
+      - lekh-net
+
+  # The Celery Worker
+  # This container processes the long-running AI story generation tasks.
+  celery_worker:
+    container_name: lekh-backend-worker
+    # CRITICAL: It uses the exact same image as the backend service.
+    # This is efficient as it avoids building two separate images.
+    build:
+      context: ./backend
+    # OVERRIDE COMMAND: Instead of starting a web server, this container starts a Celery worker.
+    # It tells Celery to look for the 'celery_app' instance defined in 'app.services.celery_app'.
+    command: ["celery", "-A", "app.services.celery_app", "worker", "--loglevel=info", "--pool=gevent"]
+    env_file:
+      - .env # The worker also needs all the same secrets (DB, LLM keys, etc.)
+    # The worker depends on Redis to receive tasks.
+    depends_on:
+      - redis
+    networks:
+      - lekh-net
+    # Optional: Deploy more workers for higher throughput
+    # deploy:
+    #   replicas: 2
+
+  # Frontend Development Server
+  # This container runs the Remix development server
+  frontend:
+    container_name: lekh-frontend-dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000" # Maps port 3000 for the frontend
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/app # Mount source code for hot reloading
+      - /app/node_modules # Anonymous volume to preserve node_modules
+    depends_on:
+      - backend
+    networks:
+      - lekh-net
+
+  # Redis for Celery Task Queuing and WebSocket Pub/Sub
+  # This is the only database/infra service we run locally now.
+  redis:
+    container_name: lekh-redis
+    image: redis:7-alpine # Use a lightweight alpine-based Redis image
+    ports:
+      - "6379:6379" # Expose to host for optional debugging with a Redis client
+    networks:
+      - lekh-net
+
+# Define the shared network for inter-container communication
+networks:
+  lekh-net:
+    driver: bridge
