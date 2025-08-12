@@ -2,9 +2,9 @@ import logging
 from typing import Dict, Any
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
-from ..state import AgentState, SceneBrief
-from ..tools.knowledge_graph import Neo4jTool
-from ..tools.user_interaction import propose_outline_deviation
+from agent.state import AgentState, SceneBrief
+from agent.tools.knowledge_graph import Neo4jTool
+from agent.tools.user_interaction import propose_outline_deviation
 
 logger = logging.getLogger(__name__)
 

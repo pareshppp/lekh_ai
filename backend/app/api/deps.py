@@ -1,7 +1,7 @@
 from typing import Dict, Any
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from ..core.security import validate_supabase_jwt, create_auth_exception, JWTValidationError
+from app.core.security import validate_supabase_jwt, create_auth_exception, JWTValidationError
 import logging
 
 logger = logging.getLogger(__name__)

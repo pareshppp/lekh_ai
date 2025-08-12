@@ -1,5 +1,5 @@
 from celery import Celery
-from ..core.config import settings
+from app.core.config import settings
 import logging
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,6 @@ celery_app.conf.update(
     worker_prefetch_multiplier=1,
     # Retry configuration
     task_acks_late=True,
-    task_reject_on_worker_lost=True,
     # Result configuration
     result_expires=3600,  # 1 hour
     # Route tasks

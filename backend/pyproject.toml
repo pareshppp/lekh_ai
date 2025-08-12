@@ -30,6 +30,7 @@ dependencies = [
     # Task queue
     "celery>=5.3.4",
     "redis>=5.0.1",
+    "gevent>=23.9.0",
     
     # AI/ML frameworks
     "langchain>=0.1.0",

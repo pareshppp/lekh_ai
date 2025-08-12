@@ -2,7 +2,7 @@ import asyncio
 import logging
 from typing import Dict, Any, List, Optional
 from supabase import create_client, Client
-from ..core.config import settings
+from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 

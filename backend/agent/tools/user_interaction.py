@@ -1,6 +1,6 @@
 import logging
 from typing import Dict, Any
-from ..state import AgentState, DeviationProposal
+from agent.state import AgentState, DeviationProposal
 
 logger = logging.getLogger(__name__)
 

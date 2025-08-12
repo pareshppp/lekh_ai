@@ -4,10 +4,10 @@ from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
-from ..deps import get_current_user_id
-from ...db.supabase_handler import SupabaseHandler
-from ...services.story_runner import run_story_generation_task
-from ...agent.tools.knowledge_graph import Neo4jTool
+from app.api.deps import get_current_user_id
+from app.db.supabase_handler import SupabaseHandler
+from app.services.story_runner import run_story_generation_task
+from agent.tools.knowledge_graph import Neo4jTool
 
 logger = logging.getLogger(__name__)
 

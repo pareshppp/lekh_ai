@@ -4,7 +4,7 @@ import logging
 import redis.asyncio as redis
 from typing import Dict, Set
 from fastapi import WebSocket, WebSocketDisconnect
-from ..core.config import settings
+from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 

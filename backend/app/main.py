@@ -2,11 +2,11 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, WebSocket, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .core.config import settings
-from .api.api import api_router
-from .api.deps import get_current_user_id
-from .websocket.manager import manager
-from .db.supabase_handler import SupabaseHandler
+from app.core.config import settings
+from app.api.api import api_router
+from app.api.deps import get_current_user_id
+from app.websocket.manager import manager
+from app.db.supabase_handler import SupabaseHandler
 
 # Configure logging
 logging.basicConfig(
@@ -88,7 +88,7 @@ async def verify_websocket_auth(token: str) -> str:
         HTTPException: If authentication fails
     """
     try:
-        from .core.security import get_user_id_from_token, JWTValidationError
+        from app.core.security import get_user_id_from_token, JWTValidationError
         
         user_id = get_user_id_from_token(token)
         return user_id

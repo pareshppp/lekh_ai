@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.outputs import LLMResult
-from ..core.config import settings
+from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 

@@ -79,7 +79,7 @@ export default function Login() {
                 }
               }}
               providers={['google', 'github']}
-              redirectTo={`${window.location.origin}/auth/callback`}
+              redirectTo={typeof window !== 'undefined' ? `${window.location.origin}/auth/callback` : '/auth/callback'}
               onlyThirdPartyProviders={false}
               magicLink={true}
               showLinks={true}

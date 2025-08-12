@@ -1,10 +1,10 @@
 import logging
 import asyncio
 from typing import Dict, Any
-from .celery_app import celery_app
-from ..db.supabase_handler import SupabaseHandler
-from ..websocket.callback import RedisStreamCallbackHandler
-from ...agent.graph import get_compiled_graph, initialize_story_workflow
+from app.services.celery_app import celery_app
+from app.db.supabase_handler import SupabaseHandler
+from app.websocket.callback import RedisStreamCallbackHandler
+from agent.graph import get_compiled_graph, initialize_story_workflow
 
 logger = logging.getLogger(__name__)
 
